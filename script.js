@@ -10,6 +10,13 @@ createGridBtn.addEventListener("click", () => {
   showGrids(gridSize);
 });
 
+randomColorBtn.addEventListener("click", () => {
+  randomizeGridRGB();
+});
+
+resetGridBtn.addEventListener("click", () => {
+  gridContainer.innerHTML = "";
+});
 function showGrids(gridSize) {
   const gridPixels = 696 / gridSize; // 700px (grid container width) - 2*2px(grid container border size) = 696px
 
@@ -19,6 +26,30 @@ function showGrids(gridSize) {
     grid.style.width = `${gridPixels}px`;
     grid.style.height = `${gridPixels}px`;
 
+    grid.addEventListener("mouseover", () => {
+      let currentOpacity = parseFloat(grid.style.opacity);
+      if (isNaN(currentOpacity)) {
+        grid.style.opacity = 0;
+      }
+      currentOpacity = parseFloat(grid.style.opacity);
+      const newOpacity = currentOpacity + 0.1;
+      grid.style.opacity = newOpacity;
+      grid.style.backgroundColor = "grey";
+    });
+
     gridContainer.appendChild(grid);
+  }
+}
+
+function randomizeGridRGB() {
+  const grids = gridContainer.children;
+
+  for (let i = 0; i < grids.length; i++) {
+    grids[i].addEventListener("mouseover", () => {
+      grids[i].style.backgroundColor = `
+        rgb(${Math.floor(Math.random() * 256)},
+        ${Math.floor(Math.random() * 256)},
+        ${Math.floor(Math.random() * 256)})`;
+    });
   }
 }
